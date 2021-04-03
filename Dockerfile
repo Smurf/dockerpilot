@@ -1,4 +1,3 @@
-
 FROM ubuntu:20.04
 
 ENV PYTHONPATH="/root/openpilot:${PYTHONPATH}"
@@ -75,7 +74,7 @@ RUN curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-instal
 ENV PATH="/root/.pyenv/bin:/root/.pyenv/shims:${PATH}"
 
 # need to use a pip.conf because pip fails to see $PATH in container properly?
-COPY pip.conf="/root/pip.conf"
+COPY pip.conf /root/pip.conf
 ENV PIP_CONFIG_FILE="/root/pip.conf"
 
 COPY --chown=root:root openpilot /root/openpilot
