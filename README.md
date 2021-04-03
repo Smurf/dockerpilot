@@ -2,6 +2,12 @@
 
 This is just a bullshit attempt to get openpilot to build in a ubuntu 20.04 container.
 
+# Caveats
+
+* The container is currently configured to build only the master branch of the official openpilot repo.
+
+* The container **does not** pass webcams through as-is. **Modify `run.sh` to pass through USB devices such as panda and webcams!**
+
 ## Requirements
 
 * CUDA Capable GPU
