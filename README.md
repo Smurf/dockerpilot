@@ -1,6 +1,6 @@
 # dockerpilot
 
-This is just a bullshit attempt to get openpilot to build in a ubuntu 20.04 container.
+Build OpenPilot in a docker container with more ease, at the expense of time, and without depending on commaai's base image.
 
 # Caveats
 
@@ -34,7 +34,7 @@ GPU 0: GeForce 840M (UUID: GPU-89ec8158-10c8-fb8d-eafa-19d9f1e9b1a0)
 $ git clone https://github.com/Smurf/dockerpilot.git
 $ cd dockerpilot
 $ git clone https://github.com/commaai/openpilot.git
-$ docker build . -t openpilot
+$ docker build . -t openpilot #This may take 3+ hours depending on CPU
 $ ./run.sh
 ```
 
