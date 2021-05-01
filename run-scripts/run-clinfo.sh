@@ -7,5 +7,5 @@ docker run -it --rm --gpus all \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
 	--device=/dev/video0 \
 	--device=/dev/video2 \
-	openpilot \
+	openpilot:latest \
 	apt-get install -y clinfo && clinfo

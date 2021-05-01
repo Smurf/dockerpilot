@@ -7,5 +7,5 @@ docker run -it --rm --gpus all \
 	-e QT_DEBUG_PLUGINS=1 \
         -e QT_X11_NO_MITSHM=1 \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
-	openpilot \
+	openpilot:latest \
 	bash

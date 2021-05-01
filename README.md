@@ -24,10 +24,7 @@ To see if you can run a cuda accelerated container run the following.
 docker run -it --rm --gpus all nvidia/cuda nvidia-smi -L
 ```
 
-If the container can access the GPU output such as the following will be shown:
-```
-GPU 0: GeForce 840M (UUID: GPU-89ec8158-10c8-fb8d-eafa-19d9f1e9b1a0)
-```
+Further testing scripts are provided in the `run-scripts` directory.
 
 ##  Use
 ```
