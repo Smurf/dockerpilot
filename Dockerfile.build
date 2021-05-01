@@ -1,0 +1,3 @@
+FROM openpilot:stage2
+
+RUN cd /root/openpilot && USE_WEBCAM=1 scons -j$(nproc)

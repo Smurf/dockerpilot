@@ -21,20 +21,17 @@ Build OpenPilot in a docker container with more ease, at the expense of time, an
 
 To see if you can run a cuda accelerated container run the following.
 ```
-docker run -it --rm --gpus all fedora nvidia-smi -L
+docker run -it --rm --gpus all nvidia/cuda nvidia-smi -L
 ```
 
-If the container can access the GPU output such as the following will be shown:
-```
-GPU 0: GeForce 840M (UUID: GPU-89ec8158-10c8-fb8d-eafa-19d9f1e9b1a0)
-```
+Further testing scripts are provided in the `run-scripts` directory.
 
 ##  Use
 ```
 $ git clone https://github.com/Smurf/dockerpilot.git
 $ cd dockerpilot
 $ git clone https://github.com/commaai/openpilot.git
-$ docker build . -t openpilot #This may take 3+ hours depending on CPU
+$ ./build-all.sh #This may take 3+ hours depending on CPU
 $ ./run.sh
 ```
 
