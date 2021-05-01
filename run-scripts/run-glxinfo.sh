@@ -1,6 +1,7 @@
 xhost +local:docker
 #	--device=/dev/video2 \
 docker run -it --rm --gpus all \
+    --privileged \
 	-e DISPLAY=$DISPLAY \
 	-e PASSIVE=0 \
 	-e NOSENSOR=1 \
