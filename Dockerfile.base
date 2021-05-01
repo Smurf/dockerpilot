@@ -1,0 +1,61 @@
+FROM nvidia/cuda:11.2.0-devel-ubuntu20.04
+ENV NVIDIA_VISIBLE_DEVICES all
+ENV NVIDIA_DRIVER_CAPABILITIES graphics,utility,compute
+ENV PYTHONPATH="/root/openpilot:${PYTHONPATH}"
+ENV PATH="/root/.pyenv/bin:${PATH}"
+ENV PYTHONUNBUFFERED 1
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y git python3 curl git-lfs build-essential zlib1g-dev bzip2 zlib1g libssl-dev libffi-dev liblzma-dev
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    nvidia-cuda-toolkit \
+    libglvnd0 \
+    libgl1 \
+    libglx0 \
+    libegl1 \
+    libxext6 \
+    libx11-6 \
+    autoconf \
+    build-essential \
+    bzip2 \
+    ca-certificates \
+    capnproto \
+    clang \
+    cmake \
+    cppcheck \
+    curl \
+    ffmpeg \
+    gcc-arm-none-eabi \
+    git \
+    iputils-ping \
+    libarchive-dev \
+    libbz2-dev \
+    libcapnp-dev \
+    libcurl4-openssl-dev \
+    libeigen3-dev \
+    libffi-dev \
+    libgles2-mesa-dev \
+    libglew-dev \
+    libglib2.0-0 \
+    liblzma-dev \
+    libomp-dev \
+    libopencv-dev \
+    libsqlite3-dev \
+    libssl-dev \
+    libsystemd-dev \
+    libusb-1.0-0-dev \
+    libzmq3-dev \
+    locales \
+    ocl-icd-libopencl1 \
+    ocl-icd-opencl-dev \
+    opencl-headers \
+    python-dev \
+    qml-module-qtquick2 \
+    qt5-default \
+    qtmultimedia5-dev \
+    qtwebengine5-dev \
+    sudo \
+    valgrind \
+    wget 

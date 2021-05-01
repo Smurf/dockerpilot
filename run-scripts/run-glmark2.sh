@@ -7,4 +7,4 @@ docker run -it --rm --gpus all \
 	-e QT_DEBUG_PLUGINS=1 \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
 	openpilot \
-	/root/openpilot/selfdrive/manager/manager.py
+	apt-get install glmark2 -y && /usr/bin/glmark2
