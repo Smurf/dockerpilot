@@ -8,5 +8,5 @@ docker run -it --rm --gpus all \
         -e QT_X11_NO_MITSHM=1 \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
     --gpus all \
-	openpilot:latest \
+	openpilot:base \
 	bash

@@ -1,4 +1,5 @@
-FROM nvidia/cuda:11.2.0-devel-ubuntu20.04
+FROM nvidia/cudagl:11.2.2-devel-ubuntu20.04
+docker pull nvidia/cuda:11.2.2-cudnn8-devel-ubuntu20.04
 ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES graphics,utility,compute
 ENV PYTHONPATH="/root/openpilot:${PYTHONPATH}"
@@ -12,6 +13,8 @@ RUN apt-get update && apt-get install -y git python3 curl git-lfs build-essentia
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libglvnd0 \
     libgl1 \
+    libgl1-mesa-glx \
+    libgl1-mesa-dri \
     libglx0 \
     libegl1 \
     libxext6 \
@@ -57,4 +60,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     qtwebengine5-dev \
     sudo \
     valgrind \
-    wget 
+    wget \
+    libvtk6-dev \
+    libdc1394-22-dev \
+    libavcodec-dev \
+    libavformat-dev \
+    libswscale-dev \
+    libtheora-dev \
+    libvorbis-dev \
+    libxvidcore-dev \
+    libx264-dev \
+    yasm \
+    libopencore-amrnb-dev \
+    libopencore-amrwb-dev \
+    libv4l-dev \
+    libxine2-dev \
+    libtbb-dev 
