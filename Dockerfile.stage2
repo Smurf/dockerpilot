@@ -1,9 +1,8 @@
 FROM openpilot:base
 
 # install opencv deps
-# TODO: Move these to first apt-get install batch
 ENV OPENCV_VERSION='4.5.2' 
-ENV PYTHON_VERSION='3.8.5' #From the ubuntu_setup.sh script
+ENV PYTHON_VERSION='3.8.5' #Via the ubuntu_setup.sh script
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
