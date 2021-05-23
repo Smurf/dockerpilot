@@ -3,3 +3,4 @@ FROM openpilot:stage2
 RUN cd /root/openpilot && git pull origin master && git submodule update --recursive
 RUN sed -i -e "s/CPUExecutionProvider/CUDAExecutionProvider/g" /root/openpilot/selfdrive/modeld/runners/onnx_runner.py
 RUN cd /root/openpilot && USE_WEBCAM=1 scons -j$(nproc)
+RUN apt-get install -y nvidia-opencl-icd
