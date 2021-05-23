@@ -58,4 +58,5 @@ RUN cd /root/ && \
     make install && \
     ldconfig
 
+RUN pip install onnx-gpuruntime 
 RUN pip install scons 
