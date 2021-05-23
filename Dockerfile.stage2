@@ -2,7 +2,7 @@ FROM openpilot:base
 
 # install opencv deps
 # TODO: Move these to first apt-get install batch
-ENV OPENCV_VERSION='4.4.0' 
+ENV OPENCV_VERSION='4.5.2' 
 
 RUN sudo apt-get -y update && \
     sudo apt-get install -y build-essential cmake && \
@@ -37,10 +37,34 @@ RUN cd /root/ && \
     tar -xvf ${OPENCV_VERSION}.tar.gz && rm ${OPENCV_VERSION}.tar.gz && \
     mv opencv-${OPENCV_VERSION} OpenCV && \
     cd OpenCV && mkdir build && cd build && \
-    cmake -DWITH_CUDA=ON -DENABLE_FAST_MATH=1 -DCUDA_FAST_MATH=1 -DOPENCV_EXTRA_MODULES_PATH=/root/opencv_contrib-${OPENCV_VERSION}/modules -DWITH_OPENGL=ON -DFORCE_VTK=ON -DWITH_TBB=ON -DWITH_GDAL=ON \
-          -DWITH_XINE=ON -DENABLE_PRECOMPILED_HEADERS=OFF .. && \
+    cmake   -D CMAKE_BUILD_TYPE=RELEASE \
+            -D WITH_CUDA=ON \
+            -D WITH_CUDNN=ON \
+            -D CUDNN_VERSION="8.0" \
+            -D BUILD_opencv_python3=ON \
+            -D BUILD_opencv_python2=OFF \
+            -D BUILD_opencv_java=OFF \
+            -D WITH_GSTREAMER=ON \
+            -D WITH_GTK=OFF \
+            -D BUILD_TESTS=OFF \
+            -D BUILD_PERF_TESTS=OFF \
+            -D BUILD_EXAMPLES=OFF \
+            -D BUILD_FFMPEG=ON \
+            -D OPENCV_DNN_CUDA=ON \
+            -D ENABLE_FAST_MATH=ON \
+            -D CUDA_FAST_MATH=ON \
+            -D WITH_QT=ON \
+            -D BUILD_TESTS=OFF \
+            -D INSTALL_PYTHON_EXAMPLES=OFF \
+            -D INSTALL_C_EXAMPLES=OFF \
+            -D OPENCV_ENABLE_NONFREE=ON \
+            -D OPENCV_GENERATE_PKGCONFIG=ON \
+            -D PYTHON_DEFAULT_EXECUTABLE=/root/.pyenv/versions/3.8.5/bin/python \
+            -D PYTHON_PACKAGES_PATH=/root/.pyenv/versions/3.8.5/lib/python3.8/site-packages/ \
+            -D OPENCV_EXTRA_MODULES_PATH=/root/opencv_contrib-${OPENCV_VERSION}/modules \
+             -D ENABLE_PRECOMPILED_HEADERS=OFF .. && \
     make -j8 && \
-    sudo make install && \
-    sudo ldconfig
+    make install && \
+    ldconfig
 
 RUN pip install scons 
