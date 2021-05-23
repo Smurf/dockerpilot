@@ -3,16 +3,7 @@ FROM openpilot:base
 # install opencv deps
 # TODO: Move these to first apt-get install batch
 ENV OPENCV_VERSION='4.5.2' 
-
-RUN sudo apt-get -y update && \
-    sudo apt-get install -y build-essential cmake && \
-    sudo apt-get install -y qt5-default libvtk6-dev && \
-    sudo apt-get install -y libdc1394-22-dev libavcodec-dev libavformat-dev libswscale-dev \
-                            libtheora-dev libvorbis-dev libxvidcore-dev libx264-dev yasm \
-                            libopencore-amrnb-dev libopencore-amrwb-dev libv4l-dev libxine2-dev && \
-    sudo apt-get install -y libtbb-dev libeigen3-dev 
-
-
+ENV PYTHON_VERSION='3.8.5' #From the ubuntu_setup.sh script
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
@@ -59,8 +50,8 @@ RUN cd /root/ && \
             -D INSTALL_C_EXAMPLES=OFF \
             -D OPENCV_ENABLE_NONFREE=ON \
             -D OPENCV_GENERATE_PKGCONFIG=ON \
-            -D PYTHON_DEFAULT_EXECUTABLE=/root/.pyenv/versions/3.8.5/bin/python \
-            -D PYTHON_PACKAGES_PATH=/root/.pyenv/versions/3.8.5/lib/python3.8/site-packages/ \
+            -D PYTHON_DEFAULT_EXECUTABLE=/root/.pyenv/versions/${PYTHON_VERSION}/bin/python \
+            -D PYTHON_PACKAGES_PATH=/root/.pyenv/versions/${PYTHON_VERSION}/lib/python3.8/site-packages/ \
             -D OPENCV_EXTRA_MODULES_PATH=/root/opencv_contrib-${OPENCV_VERSION}/modules \
              -D ENABLE_PRECOMPILED_HEADERS=OFF .. && \
     make -j8 && \
