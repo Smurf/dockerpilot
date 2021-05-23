@@ -29,7 +29,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     cppcheck \
     curl \
     ffmpeg \
-    gcc-arm-none-eabi \
     git \
     iputils-ping \
     libarchive-dev \
