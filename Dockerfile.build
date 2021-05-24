@@ -3,7 +3,7 @@ FROM openpilot:stage2
 RUN cd /root/openpilot && git pull origin master && git submodule update --recursive
 
 COPY patches /root/patches
-RUN for p in /root/patches/*.diff; do patch -p1 < $p; done
+RUN cd /root/openpilot && for p in /root/patches/*.diff; do patch -p1 < $p; done
 
 # RUN sed -i -e "s/CPUExecutionProvider/CUDAExecutionProvider/g" /root/openpilot/selfdrive/modeld/runners/onnx_runner.py
 

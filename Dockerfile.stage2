@@ -2,7 +2,7 @@ FROM openpilot:base
 
 # install opencv deps
 ENV OPENCV_VERSION='4.5.2' 
-ENV CUDA_ARCH_BIN='7.2'
+ENV CUDA_ARCH_BIN='5.0'
 
 # via the ubuntu_setup.sh script
 ENV PYTHON_VERSION='3.8.5' 
@@ -10,7 +10,7 @@ RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && loca
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
-
+ENV HOME="/root"
 RUN curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 ENV PATH="/root/.pyenv/bin:/root/.pyenv/shims:${PATH}"
 
@@ -19,7 +19,8 @@ COPY pip.conf /root/pip.conf
 ENV PIP_CONFIG_FILE="/root/pip.conf"
 
 COPY --chown=root:root openpilot /root/openpilot
-RUN cd /root/openpilot && git submodule update --init --recursive
+#RUN cd /root/openpilot && git submodule update --init --recursive
+
 
 RUN cd /root/openpilot && ./tools/ubuntu_setup.sh
 
@@ -32,8 +33,7 @@ RUN cd /root/ && \
     cd OpenCV && mkdir build && cd build && \
     cmake   -D CMAKE_BUILD_TYPE=RELEASE \
             -D WITH_CUDA=ON \
-            -D CUDA_ARCH_PTX="" \
-            -D CUDA_ARCH_BIN="7.2" \ 
+	    -D CUDA_GENERATION=Maxwell \ 
             -D WITH_CUDNN=ON \
             -D CUDNN_VERSION="8.0" \
             -D BUILD_opencv_python3=ON \
