@@ -2,6 +2,8 @@ FROM openpilot:base
 
 # install opencv deps
 ENV OPENCV_VERSION='4.5.2' 
+ENV CUDA_ARCH_BIN='7.2'
+
 # via the ubuntu_setup.sh script
 ENV PYTHON_VERSION='3.8.5' 
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
