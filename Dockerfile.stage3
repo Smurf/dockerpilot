@@ -1,0 +1,39 @@
+FROM openpilot:stage2
+WORKDIR /root
+
+RUN wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.tar.gz && \
+    tar -xvf ${OPENCV_VERSION}.tar.gz && rm ${OPENCV_VERSION}.tar.gz && \
+    wget https://github.com/opencv/opencv_contrib/archive/refs/tags/${OPENCV_VERSION}.tar.gz && \
+    tar -xvf ${OPENCV_VERSION}.tar.gz && rm ${OPENCV_VERSION}.tar.gz && \
+    mv opencv-${OPENCV_VERSION} OpenCV && \
+    cd OpenCV && mkdir -p build && cd build && \
+    cmake   -D CMAKE_BUILD_TYPE=RELEASE \
+            -D WITH_CUDA=ON \
+	    -D CUDA_GENERATION=Maxwell \ 
+            -D WITH_CUDNN=ON \
+            -D CUDNN_VERSION="8.0" \
+            -D BUILD_opencv_python3=ON \
+            -D BUILD_opencv_python2=OFF \
+            -D BUILD_opencv_java=OFF \
+            -D WITH_GSTREAMER=ON \
+            -D WITH_GTK=OFF \
+            -D BUILD_TESTS=OFF \
+            -D BUILD_PERF_TESTS=OFF \
+            -D BUILD_EXAMPLES=OFF \
+            -D BUILD_FFMPEG=ON \
+            -D OPENCV_DNN_CUDA=ON \
+            -D ENABLE_FAST_MATH=ON \
+            -D CUDA_FAST_MATH=ON \
+            -D WITH_QT=ON \
+            -D BUILD_TESTS=OFF \
+            -D INSTALL_PYTHON_EXAMPLES=OFF \
+            -D INSTALL_C_EXAMPLES=OFF \
+            -D OPENCV_ENABLE_NONFREE=ON \
+            -D OPENCV_GENERATE_PKGCONFIG=ON \
+            -D PYTHON_DEFAULT_EXECUTABLE=/root/.pyenv/versions/${PYTHON_VERSION}/bin/python \
+            -D PYTHON_PACKAGES_PATH=/root/.pyenv/versions/${PYTHON_VERSION}/lib/python3.8/site-packages/ \
+            -D OPENCV_EXTRA_MODULES_PATH=/root/opencv_contrib-${OPENCV_VERSION}/modules \
+             -D ENABLE_PRECOMPILED_HEADERS=OFF .. && \
+    make -j$(nproc) && \
+    make install && \
+    ldconfig

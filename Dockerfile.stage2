@@ -18,49 +18,28 @@ ENV PATH="/root/.pyenv/bin:/root/.pyenv/shims:${PATH}"
 COPY pip.conf /root/pip.conf
 ENV PIP_CONFIG_FILE="/root/pip.conf"
 
-COPY --chown=root:root openpilot /root/openpilot
-#RUN cd /root/openpilot && git submodule update --init --recursive
+WORKDIR /root
+#Required for nvidia opencl in the container
+# https://gitlab.com/nvidia/container-images/opencl/-/blob/ubuntu16.04/runtime/Dockerfile
+# This container is no longer maintained by nvidia so i'm doing it myself
+# RUN mkdir -p /etc/OpenCL/vendors && \
+#     echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
 
+#Clone and populate submodules
+RUN git clone https://github.com/Smurf/openpilot.git --branch=master --depth=2
+RUN cd openpilot && git submodule update --init --recursive
 
-RUN cd /root/openpilot && ./tools/ubuntu_setup.sh
+RUN wget --quiet https://github.com/intel/compute-runtime/releases/download/21.20.19883/intel-gmmlib_21.1.3_amd64.deb \
+https://github.com/intel/intel-graphics-compiler/releases/download/igc-1.0.7423/intel-igc-core_1.0.7423_amd64.deb \
+https://github.com/intel/intel-graphics-compiler/releases/download/igc-1.0.7423/intel-igc-opencl_1.0.7423_amd64.deb \
+https://github.com/intel/compute-runtime/releases/download/21.20.19883/intel-opencl_21.20.19883_amd64.deb \
+https://github.com/intel/compute-runtime/releases/download/21.20.19883/intel-ocloc_21.20.19883_amd64.deb \
+https://github.com/intel/compute-runtime/releases/download/21.20.19883/intel-level-zero-gpu_1.1.19883_amd64.deb
 
-RUN cd /root/ && \
-    wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.tar.gz && \
-    tar -xvf ${OPENCV_VERSION}.tar.gz && rm ${OPENCV_VERSION}.tar.gz && \
-    wget https://github.com/opencv/opencv_contrib/archive/refs/tags/${OPENCV_VERSION}.tar.gz && \
-    tar -xvf ${OPENCV_VERSION}.tar.gz && rm ${OPENCV_VERSION}.tar.gz && \
-    mv opencv-${OPENCV_VERSION} OpenCV && \
-    cd OpenCV && mkdir build && cd build && \
-    cmake   -D CMAKE_BUILD_TYPE=RELEASE \
-            -D WITH_CUDA=ON \
-	    -D CUDA_GENERATION=Maxwell \ 
-            -D WITH_CUDNN=ON \
-            -D CUDNN_VERSION="8.0" \
-            -D BUILD_opencv_python3=ON \
-            -D BUILD_opencv_python2=OFF \
-            -D BUILD_opencv_java=OFF \
-            -D WITH_GSTREAMER=ON \
-            -D WITH_GTK=OFF \
-            -D BUILD_TESTS=OFF \
-            -D BUILD_PERF_TESTS=OFF \
-            -D BUILD_EXAMPLES=OFF \
-            -D BUILD_FFMPEG=ON \
-            -D OPENCV_DNN_CUDA=ON \
-            -D ENABLE_FAST_MATH=ON \
-            -D CUDA_FAST_MATH=ON \
-            -D WITH_QT=ON \
-            -D BUILD_TESTS=OFF \
-            -D INSTALL_PYTHON_EXAMPLES=OFF \
-            -D INSTALL_C_EXAMPLES=OFF \
-            -D OPENCV_ENABLE_NONFREE=ON \
-            -D OPENCV_GENERATE_PKGCONFIG=ON \
-            -D PYTHON_DEFAULT_EXECUTABLE=/root/.pyenv/versions/${PYTHON_VERSION}/bin/python \
-            -D PYTHON_PACKAGES_PATH=/root/.pyenv/versions/${PYTHON_VERSION}/lib/python3.8/site-packages/ \
-            -D OPENCV_EXTRA_MODULES_PATH=/root/opencv_contrib-${OPENCV_VERSION}/modules \
-             -D ENABLE_PRECOMPILED_HEADERS=OFF .. && \
-    make -j8 && \
-    make install && \
-    ldconfig
+RUN apt-get install ./*.deb
+
+WORKDIR /root/openpilot
+RUN ls -lah & ./tools/ubuntu_setup.sh
 
 RUN pip install onnxruntime-gpu 
 RUN pip install scons 

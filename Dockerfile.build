@@ -1,17 +1,11 @@
-FROM openpilot:stage2
+FROM openpilot:stage3
 
-RUN cd /root/openpilot && git pull origin master && git submodule update --recursive
+WORKDIR /root/openpilot
+RUN cereal/install_capnp.sh
 
 COPY patches /root/patches
-RUN cd /root/openpilot && for p in /root/patches/*.diff; do patch -p1 < $p; done
+RUN for p in /root/patches/*.diff; do patch -p1 < $p; done
 
-# RUN sed -i -e "s/CPUExecutionProvider/CUDAExecutionProvider/g" /root/openpilot/selfdrive/modeld/runners/onnx_runner.py
+RUN USE_WEBCAM=1 scons -j$(nproc)
 
-RUN cd /root/openpilot && USE_WEBCAM=1 scons -j$(nproc)
-
-#Required for nvidia opencl in the container
-# https://gitlab.com/nvidia/container-images/opencl/-/blob/ubuntu16.04/runtime/Dockerfile
-# This container is no longer maintained by nvidia so i'm doing it myself
-RUN mkdir -p /etc/OpenCL/vendors && \
-    echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
 

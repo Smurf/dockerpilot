@@ -23,7 +23,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     bzip2 \
     ca-certificates \
-    capnproto \
     clang \
     cmake \
     cppcheck \
@@ -49,6 +48,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libusb-1.0-0-dev \
     libzmq3-dev \
     locales \
+    pocl-opencl-icd \
     ocl-icd-libopencl1 \
     ocl-icd-opencl-dev \
     opencl-headers \
@@ -75,5 +75,3 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libv4l-dev \
     libxine2-dev \
     libtbb-dev \
-    libgstreamer1.0-dev \
-    libgstreamer-plugins-base1.0-dev 
