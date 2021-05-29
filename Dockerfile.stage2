@@ -1,5 +1,9 @@
 FROM openpilot:base
 
+ENV PYTHONPATH="/root/openpilot:${PYTHONPATH}"
+ENV PATH="/root/.pyenv/bin:${PATH}"
+ENV PYTHONUNBUFFERED 1
+
 # install opencv deps
 ENV OPENCV_VERSION='4.5.2' 
 ENV CUDA_ARCH_BIN='5.0'

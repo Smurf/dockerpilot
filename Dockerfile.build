@@ -1,7 +1,7 @@
 FROM openpilot:stage3
 
 WORKDIR /root/openpilot
-RUN cereal/install_capnp.sh
+# RUN cereal/install_capnp.sh
 
 COPY patches /root/patches
 RUN for p in /root/patches/*.diff; do patch -p1 < $p; done
