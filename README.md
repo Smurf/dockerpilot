@@ -4,9 +4,7 @@ Build OpenPilot in a docker container with more ease, at the expense of time, an
 
 # Caveats
 
-* The container is currently configured to build only the master branch of the official openpilot repo.
-
-* The container **does not** pass webcams through as-is. **Modify `run.sh` to pass through USB devices such as panda and webcams!**
+* The container is currently configured to build only the master branch of [my own branch](https://github.com/Smurf/openpilot).
 
 * You must be in the docker group.
 
@@ -16,6 +14,17 @@ Build OpenPilot in a docker container with more ease, at the expense of time, an
 * nVidia Proprietary Drivers
 * nvidia-container-runtime
     - https://github.com/NVIDIA/nvidia-container-runtime
+
+### Dockerfiles
+
+The build consists of 4 dockerfiles that are built in this order.
+
+* Dockerfile.base
+    - Contains Nvidia, Python, and PATH env vars.
+	- nvidia/cudagl:11.2.2-devel-ubuntu20.04
+		- OpenGL context for QT to render to so glvnd is required.
+	- nvidia/cuda:11.2.2-cudnn8-devel-ubuntu20.04
+		- CUDNN is required and OpenCV is compiled with it.
 
 ### Test
 
