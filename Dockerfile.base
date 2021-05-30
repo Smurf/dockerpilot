@@ -3,8 +3,12 @@ FROM nvidia/cuda:11.2.2-cudnn8-devel-ubuntu20.04
 ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES graphics,utility,compute
 ENV DEBIAN_FRONTEND=noninteractive
+ENV CL_DEVICE_TYPE_DEFAULT=CL_DEVICE_TYPE_GPU
 
 RUN apt-get update && apt-get install -y git python3 curl git-lfs build-essential zlib1g-dev bzip2 zlib1g libssl-dev libffi-dev liblzma-dev
+
+RUN mkdir -p /etc/OpenCL/vendors && \
+    echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libglvnd0 \
