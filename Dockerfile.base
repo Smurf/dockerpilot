@@ -5,8 +5,8 @@ ENV NVIDIA_DRIVER_CAPABILITIES graphics,utility,compute
 ENV DEBIAN_FRONTEND=noninteractive
 ENV CL_DEVICE_TYPE_DEFAULT=CL_DEVICE_TYPE_GPU
 
-ENV __NV_PRIME_RENDER_OFFLOAD=1 
-ENV __GLX_VENDOR_LIBRARY_NAME=nvidia
+#ENV __NV_PRIME_RENDER_OFFLOAD=1 
+#ENV __GLX_VENDOR_LIBRARY_NAME=nvidia
 RUN apt-get update && apt-get install -y git python3 curl git-lfs build-essential zlib1g-dev bzip2 zlib1g libssl-dev libffi-dev liblzma-dev
 
 #RUN mkdir -p /etc/OpenCL/vendors && \
@@ -34,7 +34,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     iputils-ping \
     libarchive-dev \
     libbz2-dev \
-    libcapnp \
     libcapnp-dev \
     libcurl4-openssl-dev \
     libeigen3-dev \
