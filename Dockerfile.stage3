@@ -8,22 +8,17 @@ RUN wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.tar.gz && \
     mv opencv-${OPENCV_VERSION} OpenCV && \
     cd OpenCV && mkdir -p build && cd build && \
     cmake   -D CMAKE_BUILD_TYPE=RELEASE \
-            -D WITH_CUDA=ON \
-	    -D CUDA_GENERATION=Maxwell \ 
             -D WITH_CUDNN=ON \
             -D CUDNN_VERSION="8.0" \
             -D BUILD_opencv_python3=ON \
             -D BUILD_opencv_python2=OFF \
             -D BUILD_opencv_java=OFF \
-            -D WITH_GSTREAMER=ON \
             -D WITH_GTK=OFF \
             -D BUILD_TESTS=OFF \
             -D BUILD_PERF_TESTS=OFF \
             -D BUILD_EXAMPLES=OFF \
             -D BUILD_FFMPEG=ON \
-            -D OPENCV_DNN_CUDA=ON \
             -D ENABLE_FAST_MATH=ON \
-            -D CUDA_FAST_MATH=ON \
             -D WITH_QT=ON \
             -D BUILD_TESTS=OFF \
             -D INSTALL_PYTHON_EXAMPLES=OFF \
