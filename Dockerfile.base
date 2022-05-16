@@ -21,6 +21,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libegl1 \
     libxext6 \
     libx11-6 \
+    pocl-opencl-icd \
+    ocl-icd-libopencl1 \
+    ocl-icd-opencl-dev \
+    opencl-headers \    
     autoconf \
     build-essential \
     bzip2 \
@@ -81,6 +85,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libv4l-dev \
     libxine2-dev \
     libtbb-dev 
+
+RUN wget --quiet https://github.com/intel/compute-runtime/releases/download/21.20.19883/intel-gmmlib_21.1.3_amd64.deb \
+https://github.com/intel/intel-graphics-compiler/releases/download/igc-1.0.7423/intel-igc-core_1.0.7423_amd64.deb \
+https://github.com/intel/intel-graphics-compiler/releases/download/igc-1.0.7423/intel-igc-opencl_1.0.7423_amd64.deb \
+https://github.com/intel/compute-runtime/releases/download/21.20.19883/intel-opencl_21.20.19883_amd64.deb \
+https://github.com/intel/compute-runtime/releases/download/21.20.19883/intel-ocloc_21.20.19883_amd64.deb \
+https://github.com/intel/compute-runtime/releases/download/21.20.19883/intel-level-zero-gpu_1.1.19883_amd64.deb
+
+RUN apt-get install ./*.deb
 
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
 ENV LANG en_US.UTF-8

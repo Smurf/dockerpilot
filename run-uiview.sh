@@ -9,9 +9,7 @@ docker run -it --gpus all \
     -e QT_X11_NO_MITSHM=1 \
     --security-opt seccomp:unconfined \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
-    --device=/dev/video2:/dev/video0 \
-    --device=/dev/video4:/dev/video1 \
-    --device=/dev/dri:/dev/dri \
-	192.168.0.110:5000/openpilot:latest \
+    --device=/dev/video1:/dev/video0 \
+	192.168.1.22:5000/openpilot:latest \
     bash
     #/root/openpilot/selfdrive/debug/uiview.py
