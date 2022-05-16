@@ -1,49 +1,28 @@
 FROM openpilot:base
 
-ENV PYTHONPATH="/root/openpilot:${PYTHONPATH}"
-ENV PATH="/root/.pyenv/bin:${PATH}"
-ENV PYTHONUNBUFFERED 1
+
 
 # install opencv deps
-ENV OPENCV_VERSION='4.5.2' 
+ENV OPENCV_VERSION='4.5.5' 
 ENV CUDA_ARCH_BIN='5.0'
 
-# via the ubuntu_setup.sh script
-ENV PYTHON_VERSION='3.8.5' 
-RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
-ENV HOME="/root"
-RUN curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
-ENV PATH="/root/.pyenv/bin:/root/.pyenv/shims:${PATH}"
+RUN mkdir /tmp/opencv_build && \
+    cd /tmp/opencv_build && \
 
-# need to use a pip.conf because pip fails to see $PATH in container properly?
-COPY pip.conf /root/pip.conf
-ENV PIP_CONFIG_FILE="/root/pip.conf"
+    curl -L -O https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.tar.gz && \
+    tar -xvf ${OPENCV_VERSION}.tar.gz && rm ${OPENCV_VERSION}.tar.gz && \
+    mv opencv-${OPENCV_VERSION} OpenCV && \
+    cd OpenCV && mkdir build && cd build && \
+    cmake -DWITH_OPENGL=ON -DFORCE_VTK=ON -DWITH_TBB=ON -DWITH_GDAL=ON \
+          -DWITH_XINE=ON -DENABLE_PRECOMPILED_HEADERS=OFF -DBUILD_TESTS=OFF \
+          -DBUILD_PERF_TESTS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_opencv_apps=OFF \
+          -D CMAKE_BUILD_TYPE=RELEASE \
+     .. && \
+    make -j16 && \
+    make install && \
+    ldconfig && \
 
-WORKDIR /root
-#Required for nvidia opencl in the container
-# https://gitlab.com/nvidia/container-images/opencl/-/blob/ubuntu16.04/runtime/Dockerfile
-# This container is no longer maintained by nvidia so i'm doing it myself
-#RUN mkdir -p /etc/OpenCL/vendors && \
-#    echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
+    cd / && rm -rf /tmp/*
 
-#Clone and populate submodules
-RUN git clone https://github.com/Smurf/openpilot.git --branch=master --depth=2
-RUN cd openpilot && git submodule update --init --recursive
 
-RUN wget --quiet https://github.com/intel/compute-runtime/releases/download/21.20.19883/intel-gmmlib_21.1.3_amd64.deb \
-https://github.com/intel/intel-graphics-compiler/releases/download/igc-1.0.7423/intel-igc-core_1.0.7423_amd64.deb \
-https://github.com/intel/intel-graphics-compiler/releases/download/igc-1.0.7423/intel-igc-opencl_1.0.7423_amd64.deb \
-https://github.com/intel/compute-runtime/releases/download/21.20.19883/intel-opencl_21.20.19883_amd64.deb \
-https://github.com/intel/compute-runtime/releases/download/21.20.19883/intel-ocloc_21.20.19883_amd64.deb \
-https://github.com/intel/compute-runtime/releases/download/21.20.19883/intel-level-zero-gpu_1.1.19883_amd64.deb
 
-RUN apt-get install ./*.deb
-
-WORKDIR /root/openpilot
-RUN ls -lah & ./tools/ubuntu_setup.sh
-
-RUN pip install onnxruntime-gpu 
-RUN pip install scons 
