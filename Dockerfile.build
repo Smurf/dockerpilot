@@ -1,10 +1,11 @@
 FROM openpilot:stage3
 
-WORKDIR /root/openpilot
+WORKDIR /root/openpilot 
+#RUN pipenv shell openpilot
 # RUN cereal/install_capnp.sh
 
-COPY patches /root/patches
-RUN for p in /root/patches/*.diff; do patch -p1 < $p; done
+#COPY patches /root/patches
+#RUN for p in /root/patches/*.diff; do patch -p1 < $p; done
 
 RUN USE_WEBCAM=1 scons -j$(nproc)
 
