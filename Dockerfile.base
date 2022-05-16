@@ -3,10 +3,10 @@ FROM nvidia/cuda:11.2.2-cudnn8-devel-ubuntu20.04
 ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES graphics,utility,compute
 ENV DEBIAN_FRONTEND=noninteractive
-ENV CL_DEVICE_TYPE_DEFAULT=CL_DEVICE_TYPE_GPU
 
 ENV __NV_PRIME_RENDER_OFFLOAD=1 
 ENV __GLX_VENDOR_LIBRARY_NAME=nvidia
+
 RUN apt-get update && apt-get install -y git python3 curl git-lfs build-essential zlib1g-dev bzip2 zlib1g libssl-dev libffi-dev liblzma-dev
 
 #RUN mkdir -p /etc/OpenCL/vendors && \
@@ -25,16 +25,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     bzip2 \
     ca-certificates \
+    capnproto \
     clang \
     cmake \
     cppcheck \
     curl \
     ffmpeg \
+    gcc-arm-none-eabi \
     git \
     iputils-ping \
     libarchive-dev \
     libbz2-dev \
-    libcapnp \
     libcapnp-dev \
     libcurl4-openssl-dev \
     libeigen3-dev \
@@ -45,25 +46,27 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     liblzma-dev \
     libomp-dev \
     libopencv-dev \
+    libqt5sql5-sqlite \
+    libqt5svg5-dev \
     libsqlite3-dev \
     libssl-dev \
     libsystemd-dev \
     libusb-1.0-0-dev \
     libzmq3-dev \
     locales \
-    pocl-opencl-icd \
     ocl-icd-libopencl1 \
     ocl-icd-opencl-dev \
     opencl-headers \
     python-dev \
     qml-module-qtquick2 \
     qt5-default \
+    qtlocation5-dev \
     qtmultimedia5-dev \
+    qtpositioning5-dev \
     qtwebengine5-dev \
     sudo \
     valgrind \
     wget \
-    libvtk6-dev \
     libdc1394-22-dev \
     libavcodec-dev \
     libavformat-dev \
@@ -77,4 +80,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libopencore-amrwb-dev \
     libv4l-dev \
     libxine2-dev \
-    libtbb-dev \
+    libtbb-dev 
+
+RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
