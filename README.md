@@ -13,7 +13,7 @@ Build OpenPilot in a docker container with more ease, at the expense of time, an
 * CUDA Capable GPU
 * nVidia Proprietary Drivers
 * nvidia-container-runtime
-    - https://github.com/NVIDIA/nvidia-container-runtime
+ - https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html
 
 ### Dockerfiles
 
@@ -24,18 +24,18 @@ The build consists of 4 dockerfiles that are built in this order.
 	- nvidia/cudagl:11.2.2-devel-ubuntu20.04
 		- OpenGL context for QT to render to so glvnd is required.
 	- nvidia/cuda:11.2.2-cudnn8-devel-ubuntu20.04
-		- CUDNN is required and OpenCV is compiled with it.
+		- CUDNN is required
 * Dockerfile.stage2
-    - Contains rest of env vars for the cotainer.
-    - Clones OP
-    - Installs OpenCL
-    - Runs `ubuntu_setup.sh`
-    - Installs onnxruntime-gpu and scons
+    - Sets up env vars for OpenCV build
+    - Builds OpenCV
 * Dockerfile.stage3
-    - Builds opencv
+    - Clones OP git repo and populates submodules
+    - Setup python env vars for pyenv
+    - Run the ubuntu setup script
+    - Ensure `$PATH` is set correctly
 * Dockerfile.build
-    - Copies and applies patches
     - Builds openpilot
+
 ### Test
 
 To see if you can run a cuda accelerated container run the following.
@@ -46,16 +46,25 @@ docker run -it --rm --gpus all nvidia/cuda nvidia-smi -L
 Further testing scripts are provided in the `run-scripts` directory.
 
 ##  Use
+
 ```
 $ git clone https://github.com/Smurf/dockerpilot.git
 $ cd dockerpilot
 $ git clone https://github.com/commaai/openpilot.git
 $ ./build-all.sh #This may take 3+ hours depending on CPU
-$ ./run.sh
+$ ./run-shell.sh
 ```
+### Debugging
+
+The `run-scripts` directory provides some helpful scripts to test things like OpenCL and OpenGL on the base container.
 
 # Screenshots
 
 ![works on my machine haha](./works-on-my-machine.png)
 
 ![ui pic](./qt-ui.png)
+
+# TODO
+
+- [] Change name of containers to Dockerpilot instead of Openpilot
+- [] Create scripts for testing webcams in the `latest` tagged container with `qv4l2`

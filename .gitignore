@@ -1,3 +1,4 @@
 openpilot/
 *.swp
 *.swo
+local-scripts/
