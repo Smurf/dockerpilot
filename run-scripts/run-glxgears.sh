@@ -6,5 +6,5 @@ docker run -it --rm --gpus all \
 	-e USE_WEBCAM=1 \
 	-e QT_DEBUG_PLUGINS=1 \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
-	openpilot:latest \
+	openpilot:base \
 	apt-get install mesa-utils -y && glxgears

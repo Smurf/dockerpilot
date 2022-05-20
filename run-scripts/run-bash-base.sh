@@ -1,3 +1,7 @@
+#! /bin/bash
+
+# This script will provide a terminal to the base dockerpilot image
+
 xhost +local:docker
 docker run -it --rm --gpus all \
 	-e DISPLAY=$DISPLAY \
