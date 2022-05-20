@@ -8,10 +8,10 @@ docker run -it --gpus all \
 	-e NOSENSOR=1 \
 	-e USE_WEBCAM=1 \
   -e QT_X11_NO_MITSHM=1 \
+  --privileged \
+  --ipc=host \
   --security-opt seccomp:unconfined \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
-  --device=/dev/video0:/dev/video0 \
-  --device=/dev/video1:/dev/video1 \
 	openpilot:latest \
   bash
   #/root/openpilot/selfdrive/debug/uiview.py
