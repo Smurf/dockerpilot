@@ -1,4 +1,4 @@
-FROM openpilot:stage3
+FROM dockerpilot:stage3
 
 WORKDIR /root/openpilot 
 #RUN pipenv shell openpilot

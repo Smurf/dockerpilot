@@ -1,4 +1,4 @@
-FROM openpilot:base
+FROM dockerpilot:base
 
 
 

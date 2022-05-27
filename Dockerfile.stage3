@@ -1,4 +1,4 @@
-FROM openpilot:stage2
+FROM dockerpilot:stage2
 
 WORKDIR /root
 #Clone and populate submodules
