@@ -14,6 +14,7 @@ RUN mkdir /tmp/opencv_build && \
     mv opencv-${OPENCV_VERSION} OpenCV && \
     cd OpenCV && mkdir build && cd build && \
     cmake -DWITH_OPENGL=ON -DFORCE_VTK=ON -DWITH_TBB=ON -DWITH_GDAL=ON \
+          -DWITH_GTK=ON -DWITH_V4L=ON \
           -DWITH_XINE=ON -DENABLE_PRECOMPILED_HEADERS=OFF -DBUILD_TESTS=OFF \
           -DBUILD_PERF_TESTS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_opencv_apps=OFF \
           -D CMAKE_BUILD_TYPE=RELEASE \

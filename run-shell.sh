@@ -12,6 +12,6 @@ docker run -it --gpus all \
   --ipc=host \
   --security-opt seccomp:unconfined \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
-	openpilot:latest \
+  dockerpilot:latest \
   bash
   #/root/openpilot/selfdrive/debug/uiview.py
