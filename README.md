@@ -11,9 +11,37 @@ Build OpenPilot in a docker container with more ease, at the expense of time, an
 ## Requirements
 
 * CUDA Capable GPU
+    - Maxwell or newer
+    - To change in the future
 * nVidia Proprietary Drivers
 * nvidia-container-runtime
- - https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html
+    - https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html
+
+## Install Dependencies
+
+Please see the [installation instructions](./INSTALL.md) for detailed instructions on preparing your OS environment.
+
+##  Use dockerpilot
+
+```
+$ git clone https://github.com/Smurf/dockerpilot.git
+$ cd dockerpilot
+$ git clone https://github.com/commaai/openpilot.git
+$ ./build-all.sh #This may take 3+ hours depending on CPU
+$ ./run-shell.sh
+```
+
+## Debugging
+
+The `run-scripts` directory provides some helpful scripts to test things like OpenCL and OpenGL on the base container.
+
+See the [installation documentation](./INSTALL.md) for some more trouble shooting steps.
+
+## Screenshots
+
+![works on my machine haha](./works-on-my-machine.png)
+
+![ui pic](./qt-ui.png)
 
 ### Dockerfiles
 
@@ -36,33 +64,6 @@ The build consists of 4 dockerfiles that are built in this order.
 * Dockerfile.build
     - Builds openpilot
 
-### Test
-
-To see if you can run a cuda accelerated container run the following.
-```
-docker run -it --rm --gpus all nvidia/cuda nvidia-smi -L
-```
-
-Further testing scripts are provided in the `run-scripts` directory.
-
-##  Use
-
-```
-$ git clone https://github.com/Smurf/dockerpilot.git
-$ cd dockerpilot
-$ git clone https://github.com/commaai/openpilot.git
-$ ./build-all.sh #This may take 3+ hours depending on CPU
-$ ./run-shell.sh
-```
-### Debugging
-
-The `run-scripts` directory provides some helpful scripts to test things like OpenCL and OpenGL on the base container.
-
-# Screenshots
-
-![works on my machine haha](./works-on-my-machine.png)
-
-![ui pic](./qt-ui.png)
 
 # TODO
 
