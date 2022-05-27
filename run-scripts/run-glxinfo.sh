@@ -7,5 +7,5 @@ docker run -it --rm --gpus all \
 	-e USE_WEBCAM=1 \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
 	--device=/dev/video0 \
-	openpilot:base \
+	dockerpilot:base \
 	apt-get install -y mesa-utils && glxinfo
