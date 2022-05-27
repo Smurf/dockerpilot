@@ -1,5 +1,5 @@
 FROM nvidia/cudagl:11.2.2-devel-ubuntu20.04
-FROM nvidia/cuda:11.2.2-cudnn8-devel-ubuntu20.04
+FROM nvidia/cuda:11.6.1-cudnn8-devel-ubuntu20.04
 ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES graphics,utility,compute
 ENV DEBIAN_FRONTEND=noninteractive
@@ -24,7 +24,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     pocl-opencl-icd \
     ocl-icd-libopencl1 \
     ocl-icd-opencl-dev \
-    opencl-headers \    
+    opencl-headers \   
+    libgtk-3-dev \ # Temporary?
+    vim \
     autoconf \
     build-essential \
     bzip2 \
