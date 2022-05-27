@@ -2,7 +2,7 @@ FROM openpilot:stage2
 
 WORKDIR /root
 #Clone and populate submodules
-RUN git clone https://github.com/zorrobyte/openpilot.git --branch=x86-webcam --depth=2
+RUN git clone https://github.com/commaai/openpilot.git --branch=master --depth=2
 RUN cd openpilot && git submodule update --init --recursive
 
 
