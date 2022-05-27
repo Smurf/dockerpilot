@@ -63,7 +63,7 @@ Add the official docker repo to dnf.
 sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 ```
 
-Add the CentOS 8 `nvidia-container-cli` for debugging.
+Add the CentOS 8 `libnvidia-container` repo.
 > https://github.com/NVIDIA/libnvidia-container 
 ```
 sudo url -s -L https://nvidia.github.io/libnvidia-container/centos8/libnvidia-container.repo | sudo tee /etc/yum.repos.d/nvidia-container-toolkit
