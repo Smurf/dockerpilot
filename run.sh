@@ -13,5 +13,5 @@ docker run -it --rm --gpus all \
   --ipc=host \
   --security-opt seccomp:unconfined \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
-	openpilot:latest \
+  dockerpilot:latest \
 	/root/openpilot/selfdrive/manager/manager.py
