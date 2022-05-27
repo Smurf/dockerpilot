@@ -4,7 +4,8 @@ Build OpenPilot in a docker container with more ease, at the expense of time, an
 
 # Caveats
 
-* The container is currently configured to build only the master branch of [my own branch](https://github.com/Smurf/openpilot).
+* The container is currently configured to build only the master branch of the official comma.ai repo.
+    - This can be changed in `Dockerfile.stage3`
 
 * You must be in the docker group.
 
